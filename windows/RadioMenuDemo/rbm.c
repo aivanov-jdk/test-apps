@@ -1,5 +1,8 @@
 /*
  cl -DUNICODE rbm.c gdi32.lib user32.lib
+
+ or for a smaller executable
+ cl -DUNICODE /GS- /O2 rbm.c kernel32.lib gdi32.lib user32.lib /link /NODEFAULTLIB /ENTRY:startup
 */
 
 #include <windows.h>
@@ -204,4 +207,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         return 0;
     }
     return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+
+void WINAPI startup()
+{
+    WinMain(GetModuleHandle(NULL), NULL, NULL, SW_SHOWDEFAULT);
+    ExitProcess(0);
 }
