@@ -1,11 +1,9 @@
 /*
- cl -DUNICODE rbm.cpp gdi32.lib user32.lib
+ cl -DUNICODE rbm.c gdi32.lib user32.lib
 */
 
 #include <windows.h>
-#include <string>
 
-extern "C"  {
 #define IDM_RADIO1 1001
 #define IDM_RADIO2 1002
 #define IDM_RADIO3 1003
@@ -100,13 +98,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         // First radio item. Simple String item.
         // Legacy fType  MTF_STRING insufficent for some reason
         // docs says also need to specify MMIM_STRING
-        MENUITEMINFO mii1 = { 0 };
-        memset((void *) & mii1, 0, sizeof(mii1));
+        MENUITEMINFO mii1;
+        ZeroMemory(&mii1, sizeof(mii1));
         mii1.cbSize = sizeof(MENUITEMINFO);
-        std::wstring wstr1 = L"Simple text image with radio button or tick if checked";
-        LPWSTR lp1 = (LPWSTR)wstr1.c_str();
+        LPWSTR lp1 = L"Simple text image with radio button or tick if checked";
         mii1.dwTypeData = lp1;
-        mii1.cch = (UINT)strlen((const char *)lp1);
+        mii1.cch = lstrlen(lp1);
         mii1.wID = IDM_RADIO1;
         mii1.fMask = MIIM_ID | MIIM_STRING;
         InsertMenuItem(hRadioSubMenu, 0, TRUE, &mii1);
@@ -115,13 +112,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         // Second radio item. Text and bitmap (blue). Green image when checked
         // Notice that when unchecked the image is where the check would and
         // it is moved to the right when the item is checked.
-        MENUITEMINFO mii2 = { 0 };
-        memset((void *) & mii2, 0, sizeof(mii2));
+        MENUITEMINFO mii2;
+        ZeroMemory(&mii2, sizeof(mii2));
         mii2.cbSize = sizeof(MENUITEMINFO);
-        std::wstring wstr2 = L"green checked image, no unchecked image, blue item image and text";
-        LPWSTR lp2 = (LPWSTR)wstr2.c_str();
+        LPWSTR lp2 = L"green checked image, no unchecked image, blue item image and text";
         mii2.dwTypeData = lp2;
-        mii2.cch = (UINT)strlen((const char *)lp2);
+        mii2.cch = lstrlen(lp2);
         mii2.wID = IDM_RADIO2;
         mii2.hbmpChecked = hBitmapGreen;
         mii2.hbmpItem = hBitmapBlue;
@@ -135,13 +131,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         // Expands on 2nd case - adds an UNCHECKED Image. So now there's always
         // 2 images displayed  Check image is green checked, red unchecked.
         // normal item image is blue
-        MENUITEMINFO mii3 = { 0 };
-        memset((void *) & mii3, 0, sizeof(mii3));
+        MENUITEMINFO mii3;
+        ZeroMemory(&mii3, sizeof(mii3));
         mii3.cbSize = sizeof(MENUITEMINFO);
-        std::wstring wstr3 = L"green checked image, red unchecked image, blue item image and text";
-        LPWSTR lp3 = (LPWSTR)wstr3.c_str();
+        LPWSTR lp3 = L"green checked image, red unchecked image, blue item image and text";
         mii3.dwTypeData = lp3;
-        mii3.cch = (UINT)strlen((const char *)lp3);
+        mii3.cch = lstrlen(lp3);
         mii3.wID = IDM_RADIO3;
         mii3.hbmpChecked = hBitmapGreen;
         mii3.hbmpUnchecked = hBitmapRed;
@@ -157,13 +152,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         // means you never get a radio button. If you set your own check images that's
         // drawn (see items 2 and 3). Item image seems to be incompatible with default
         // checked images. Is that a problem on Windows 10 ??
-        MENUITEMINFO mii4 = { 0 };
-        memset((void *) & mii4, 0, sizeof(mii4));
+        MENUITEMINFO mii4;
+        ZeroMemory(&mii4, sizeof(mii4));
         mii4.cbSize = sizeof(MENUITEMINFO);
-        std::wstring wstr3 = L"no checked or unchecked image, blue item image and text. Why no radio button ??";
-        LPWSTR lp3 = (LPWSTR)wstr3.c_str();
+        LPWSTR lp3 = L"no checked or unchecked image, blue item image and text. Why no radio button ??";
         mii4.dwTypeData = lp3;
-        mii4.cch = (UINT)strlen((const char *)lp3);
+        mii4.cch = lstrlen(lp3);
         mii4.wID = IDM_RADIO4;
         mii4.hbmpItem = hBitmapBlue;
         mii4.fState = MFS_CHECKED;
@@ -210,6 +204,4 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
         return 0;
     }
     return DefWindowProc(hwnd, message, wParam, lParam);
-}
-
 }
