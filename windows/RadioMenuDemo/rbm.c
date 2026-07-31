@@ -25,7 +25,7 @@
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int iCmdShow) {
-    static TCHAR szAppName[] = TEXT("RadioMenuDemo");
+    LPWSTR szAppName = TEXT("RadioMenuDemo");
     HWND hwnd;
     MSG msg;
     WNDCLASS wndclass;
